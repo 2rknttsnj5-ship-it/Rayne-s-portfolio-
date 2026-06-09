@@ -9,7 +9,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
         body { margin: 0; background-color: #111; color: #e8e0d8; font-family: 'Helvetica Neue', sans-serif; -webkit-font-smoothing: antialiased; }
-        button, a { cursor: pointer; transition: all 0.2s ease; }
+        button { cursor: pointer; transition: all 0.2s ease; }
     </style>
 </head>
 <body>
@@ -27,7 +27,7 @@
           CONTACT: "contact",
         };
 
-        // 📄 هنا يمكنك وضع روابط ملفات Google Drive الخاصة بموادكِ مستقبلاً
+        // 📄 ضعي روابط ملفات Google Drive الثابتة والمفتوحة للجميع هنا
         const FILE_LINKS = {
           weeklyDiary1: "https://drive.google.com/your-weekly-diary-link",
           classTask1: "https://drive.google.com/your-class-task-link",
@@ -150,9 +150,9 @@
               </nav>
 
               <section style={{ paddingTop: "140px", paddingBottom: "80px", paddingLeft: "2rem", paddingRight: "2rem", maxWidth: "820px", margin: "0 auto" }}>
-                <p style={{ fontSize: "0.72rem", letterSpacing: "0.22em", color: "#b8a99a", marginBottom: "1.2rem" }}>IE-200 Portfolio · KAU · 2022</p>
+                <p style={{ fontSize: "0.72rem", letterSpacing: "0.22em", color: "#b8a99a", marginBottom: "1.2rem" }}>IE-200 Portfolio · KAU · 2026</p>
                 <h1 style={{ fontFamily: "Georgia, serif", fontSize: "3.5rem", fontWeight: 400, marginBottom: "2rem", lineHeight: 1.1 }}>Rayne<br /><span style={{ color: "#b8a99a" }}>Shabi</span></h1>
-                <p style={{ fontSize: "0.9rem", color: "#888", lineHeight: 1.85, maxWidth: "520px", marginBottom: "1rem" }}>I'm Rayne Shabi. I am about 21 years old, and I am an engineering student. It's my pleasure to present a compilation of my prominent works and projects accomplished during this course.</p>
+                <p style={{ fontSize: "0.9rem", color: "#888", lineHeight: 1.85, maxWidth: "520px", marginBottom: "1rem" }}>I'm Rayne Shabi. I am an industrial engineering student. It's my pleasure to present a compilation of my prominent works and projects accomplished during this course.</p>
                 <p style={{ fontSize: "0.8rem", color: "#555" }}>📍 Jeddah, Saudi Arabia</p>
               </section>
 
@@ -175,7 +175,8 @@
           );
         }
 
-        const root = React-DOM = ReactDOM.createRoot(document.getElementById('root'));
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
         root.render(<Portfolio />);
     </script>
 </body>
