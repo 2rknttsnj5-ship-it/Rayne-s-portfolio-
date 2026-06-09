@@ -11,7 +11,7 @@ const PAGES = {
 
 // 📄 ضعي روابط ملفاتكِ الحقيقية هنا بدلاً من الروابط المؤقتة
 const FILE_LINKS = {
-  weeklyDiary1: "https://drive.google.com/your-weekly-diary-link-1",
+  weeklyDiary1: "https://drive.google.com/drive/folders/1Q7cL78DPfXtRPZ4DjYbStuH1-omLD5QT1",
   classTask1: "https://drive.google.com/your-class-task-link-1",
   researchDesign1: "https://drive.google.com/your-research-design-link-1",
 };
