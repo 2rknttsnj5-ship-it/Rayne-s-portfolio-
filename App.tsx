@@ -13,7 +13,7 @@ const PAGES = {
 const FILE_LINKS = {
   weeklyDiary1: "https://drive.google.com/drive/folders/1Q7cL78DPfXtRPZ4DjYbStuH1-omLD5QT1",
   classTask1: "https://drive.google.com/drive/folders/10njGu-x0CXAwQyJew4bFDoVwmmhuh_za",
-  researchDesign1: "https://drive.google.com/your-research-design-link-1",
+  researchDesign1: "https://drive.google.com/drive/folders/1T8dIyS4bLyErZ4TnwnnJkadYj7c14GrK",
 };
 
 function FileSection({ title, subtitle, fileUrl }) {
