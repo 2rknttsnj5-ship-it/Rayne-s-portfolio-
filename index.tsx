@@ -9,38 +9,35 @@ const PAGES = {
   CONTACT: "contact",
 };
 
-const uploadedFiles = {
-  weekly: [],
-  tasks: [],
-  research_design: [],
+// 📄 ضعي روابط ملفاتكِ الحقيقية هنا بدلاً من الروابط المؤقتة
+const FILE_LINKS = {
+  weeklyDiary1: "https://drive.google.com/your-weekly-diary-link-1",
+  classTask1: "https://drive.google.com/your-class-task-link-1",
+  researchDesign1: "https://drive.google.com/your-research-design-link-1",
 };
 
-function FileUploadSection({ storageKey }) {
-  const [files, setFiles] = useState([]);
-
-  const handleUpload = (e) => {
-    const newFiles = Array.from(e.target.files).map((f) => ({
-      name: f.name,
-      size: (f.size / 1024).toFixed(1) + " KB",
-      id: Date.now() + Math.random(),
-    }));
-    setFiles((prev) => [...prev, ...newFiles]);
-  };
-
+function FileSection({ title, subtitle, fileUrl }) {
   return (
     <div style={{ marginTop: "2rem" }}>
-      <label
+      <p style={{ color: "#888", fontSize: "0.85rem", marginBottom: "1.2rem" }}>
+        {subtitle}
+      </p>
+      
+      <a
+        href={fileUrl}
+        target="_blank"
+        rel="noreferrer"
         style={{
           display: "inline-flex",
           alignItems: "center",
-          gap: "0.5rem",
-          cursor: "pointer",
+          gap: "0.6rem",
+          textDecoration: "none",
           background: "transparent",
           border: "1.5px solid #b8a99a",
           color: "#b8a99a",
           borderRadius: "6px",
-          padding: "0.55rem 1.2rem",
-          fontSize: "0.82rem",
+          padding: "0.6rem 1.4rem",
+          fontSize: "0.85rem",
           letterSpacing: "0.08em",
           transition: "all 0.2s",
         }}
@@ -51,45 +48,13 @@ function FileUploadSection({ storageKey }) {
           e.currentTarget.style.background = "transparent";
         }}
       >
-        <span style={{ fontSize: "1rem" }}>+</span> Add File
-        <input type="file" multiple onChange={handleUpload} style={{ display: "none" }} />
-      </label>
-
-      {files.length > 0 && (
-        <div style={{ marginTop: "1.2rem", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-          {files.map((f) => (
-            <div
-              key={f.id}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.8rem",
-                background: "#1a1a1a",
-                border: "1px solid #2a2a2a",
-                borderRadius: "6px",
-                padding: "0.7rem 1rem",
-              }}
-            >
-              <span style={{ fontSize: "1.1rem" }}>📄</span>
-              <div>
-                <div style={{ color: "#e8e0d8", fontSize: "0.88rem" }}>{f.name}</div>
-                <div style={{ color: "#666", fontSize: "0.75rem" }}>{f.size}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {files.length === 0 && (
-        <p style={{ color: "#555", fontSize: "0.82rem", marginTop: "1rem" }}>
-          No files uploaded yet.
-        </p>
-      )}
+        <span>📄</span> View Document
+      </a>
     </div>
   );
 }
 
-function SubPage({ title, subtitle, storageKey, onBack }) {
+function SubPage({ title, subtitle, fileUrl, fileSubtitle, onBack }) {
   return (
     <div style={{ minHeight: "100vh", background: "#111", padding: "2.5rem 2rem" }}>
       <button
@@ -140,7 +105,7 @@ function SubPage({ title, subtitle, storageKey, onBack }) {
           }}
         />
 
-        <FileUploadSection storageKey={storageKey} />
+        <FileSection title={title} subtitle={fileSubtitle} fileUrl={fileUrl} />
       </div>
     </div>
   );
@@ -148,21 +113,14 @@ function SubPage({ title, subtitle, storageKey, onBack }) {
 
 export default function Portfolio() {
   const [page, setPage] = useState(PAGES.HOME);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const navItems = [
-    { label: "Home", page: PAGES.HOME },
-    { label: "Class Materials", page: null, isSection: true },
-    { label: "About the Research", page: PAGES.ABOUT_RESEARCH },
-    { label: "Contact", page: PAGES.CONTACT },
-  ];
 
   if (page === PAGES.WEEKLY) {
     return (
       <SubPage
         title="Weekly Diaries"
         subtitle="The summary of what I learned each week."
-        storageKey="weekly"
+        fileSubtitle="Access the compiled weekly diaries for the IE-200 course:"
+        fileUrl={FILE_LINKS.weeklyDiary1}
         onBack={() => setPage(PAGES.HOME)}
       />
     );
@@ -173,7 +131,8 @@ export default function Portfolio() {
       <SubPage
         title="Class Tasks"
         subtitle="The results of each task in this course."
-        storageKey="tasks"
+        fileSubtitle="Access the compiled class tasks and reports:"
+        fileUrl={FILE_LINKS.classTask1}
         onBack={() => setPage(PAGES.HOME)}
       />
     );
@@ -184,7 +143,8 @@ export default function Portfolio() {
       <SubPage
         title="Research Design"
         subtitle="The summary of each step in the research production."
-        storageKey="research_design"
+        fileSubtitle="Access the complete research design documentation:"
+        fileUrl={FILE_LINKS.researchDesign1}
         onBack={() => setPage(PAGES.HOME)}
       />
     );
@@ -364,10 +324,8 @@ export default function Portfolio() {
     );
   }
 
-  // HOME PAGE
   return (
     <div style={{ minHeight: "100vh", background: "#111", fontFamily: "'Helvetica Neue', sans-serif", color: "#e8e0d8" }}>
-      {/* Nav */}
       <nav
         style={{
           position: "fixed",
@@ -375,7 +333,7 @@ export default function Portfolio() {
           left: 0,
           right: 0,
           zIndex: 100,
-          background: "#111ee",
+          background: "#111111ee",
           backdropFilter: "blur(12px)",
           borderBottom: "1px solid #1e1e1e",
           padding: "0 2rem",
@@ -385,18 +343,10 @@ export default function Portfolio() {
           justifyContent: "space-between",
         }}
       >
-        <span
-          style={{
-            fontFamily: "'Georgia', serif",
-            fontSize: "0.95rem",
-            letterSpacing: "0.06em",
-            color: "#e8e0d8",
-          }}
-        >
+        <span style={{ fontFamily: "'Georgia', serif", fontSize: "0.95rem", letterSpacing: "0.06em", color: "#e8e0d8" }}>
           Rayne Shabi
         </span>
 
-        {/* Desktop nav */}
         <div style={{ display: "flex", gap: "2rem", alignItems: "center" }}>
           {[
             { label: "Home", action: () => setPage(PAGES.HOME) },
@@ -426,167 +376,57 @@ export default function Portfolio() {
         </div>
       </nav>
 
-      {/* Hero */}
-      <section
-        style={{
-          paddingTop: "140px",
-          paddingBottom: "80px",
-          paddingLeft: "2rem",
-          paddingRight: "2rem",
-          maxWidth: "820px",
-          margin: "0 auto",
-        }}
-      >
-        <p
-          style={{
-            fontSize: "0.72rem",
-            letterSpacing: "0.22em",
-            color: "#b8a99a",
-            textTransform: "uppercase",
-            marginBottom: "1.2rem",
-          }}
-        >
+      <section style={{ paddingTop: "140px", paddingBottom: "80px", paddingLeft: "2rem", paddingRight: "2rem", maxWidth: "820px", margin: "0 auto" }}>
+        <p style={{ fontSize: "0.72rem", letterSpacing: "0.22em", color: "#b8a99a", textTransform: "uppercase", marginBottom: "1.2rem" }}>
           IE-200 Portfolio · KAU · 2022
         </p>
 
-        <h1
-          style={{
-            fontFamily: "'Georgia', serif",
-            fontSize: "clamp(2.4rem, 7vw, 4.2rem)",
-            fontWeight: 400,
-            lineHeight: 1.1,
-            marginBottom: "2rem",
-            color: "#e8e0d8",
-          }}
-        >
-          Rayne
-          <br />
-          <span style={{ color: "#b8a99a" }}>Shabi</span>
+        <h1 style={{ fontFamily: "'Georgia', serif", fontSize: "clamp(2.4rem, 7vw, 4.2rem)", fontWeight: 400, lineHeight: 1.1, marginBottom: "2rem", color: "#e8e0d8" }}>
+          Rayne<br /><span style={{ color: "#b8a99a" }}>Shabi</span>
         </h1>
 
-        <p
-          style={{
-            fontSize: "0.9rem",
-            color: "#888",
-            lineHeight: 1.85,
-            maxWidth: "520px",
-            marginBottom: "1rem",
-          }}
-        >
+        <p style={{ fontSize: "0.9rem", color: "#888", lineHeight: 1.85, maxWidth: "520px", marginBottom: "1rem" }}>
           I'm Rayne Shabi. I am about 21 years old, and I am an engineering student. It's my pleasure to present a compilation of my prominent works and projects accomplished during this course. I look forward to your valuable feedback and constructive perspective.
         </p>
 
-        <p style={{ fontSize: "0.8rem", color: "#555", letterSpacing: "0.08em" }}>
-          📍 Jeddah, Saudi Arabia
-        </p>
+        <p style={{ fontSize: "0.8rem", color: "#555", letterSpacing: "0.08em" }}>📍 Jeddah, Saudi Arabia</p>
       </section>
 
-      {/* Divider */}
       <div style={{ maxWidth: "820px", margin: "0 auto 3rem", padding: "0 2rem" }}>
         <div style={{ height: "1px", background: "linear-gradient(to right, #b8a99a33, transparent)" }} />
       </div>
 
-      {/* Class Materials */}
       <section style={{ maxWidth: "820px", margin: "0 auto", padding: "0 2rem 5rem" }}>
-        <p
-          style={{
-            fontSize: "0.72rem",
-            letterSpacing: "0.22em",
-            color: "#b8a99a",
-            textTransform: "uppercase",
-            marginBottom: "2rem",
-          }}
-        >
+        <p style={{ fontSize: "0.72rem", letterSpacing: "0.22em", color: "#b8a99a", textTransform: "uppercase", marginBottom: "2rem" }}>
           Class Materials
         </p>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: "1px",
-            background: "#1e1e1e",
-            borderRadius: "10px",
-            overflow: "hidden",
-            border: "1px solid #1e1e1e",
-          }}
-        >
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1px", background: "#1e1e1e", borderRadius: "10px", overflow: "hidden", border: "1px solid #1e1e1e" }}>
           {[
-            {
-              title: "Weekly Diaries",
-              sub: "The summary of what I learned each week.",
-              page: PAGES.WEEKLY,
-            },
-            {
-              title: "Class Tasks",
-              sub: "The results of each task in this course.",
-              page: PAGES.TASKS,
-            },
-            {
-              title: "Research Design",
-              sub: "The summary of each step in the research production.",
-              page: PAGES.RESEARCH_DESIGN,
-            },
+            { title: "Weekly Diaries", sub: "The summary of what I learned each week.", page: PAGES.WEEKLY },
+            { title: "Class Tasks", sub: "The results of each task in this course.", page: PAGES.TASKS },
+            { title: "Research Design", sub: "The summary of each step in the research production.", page: PAGES.RESEARCH_DESIGN },
           ].map((item) => (
             <button
               key={item.title}
               onClick={() => setPage(item.page)}
-              style={{
-                background: "#161616",
-                border: "none",
-                padding: "2rem 1.6rem",
-                cursor: "pointer",
-                textAlign: "left",
-                transition: "background 0.2s",
-              }}
+              style={{ background: "#161616", border: "none", padding: "2rem 1.6rem", cursor: "pointer", textAlign: "left", transition: "background 0.2s" }}
               onMouseEnter={(e) => (e.currentTarget.style.background = "#1c1c1c")}
               onMouseLeave={(e) => (e.currentTarget.style.background = "#161616")}
             >
-              <div
-                style={{
-                  fontFamily: "'Georgia', serif",
-                  fontSize: "1rem",
-                  color: "#e8e0d8",
-                  marginBottom: "0.5rem",
-                  fontWeight: 400,
-                }}
-              >
+              <div style={{ fontFamily: "'Georgia', serif", fontSize: "1rem", color: "#e8e0d8", marginBottom: "0.5rem", fontWeight: 400 }}>
                 {item.title}
               </div>
               <div style={{ fontSize: "0.78rem", color: "#666", lineHeight: 1.6 }}>{item.sub}</div>
-              <div style={{ marginTop: "1.4rem", color: "#b8a99a", fontSize: "0.78rem", letterSpacing: "0.08em" }}>
-                Open →
-              </div>
+              <div style={{ marginTop: "1.4rem", color: "#b8a99a", fontSize: "0.78rem", letterSpacing: "0.08em" }}>Open →</div>
             </button>
           ))}
         </div>
       </section>
 
-      {/* Footer */}
-      <footer
-        style={{
-          borderTop: "1px solid #1e1e1e",
-          padding: "1.4rem 2rem",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          maxWidth: "820px",
-          margin: "0 auto",
-        }}
-      >
+      <footer style={{ borderTop: "1px solid #1e1e1e", padding: "1.4rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: "820px", margin: "0 auto" }}>
         <span style={{ fontSize: "0.75rem", color: "#444" }}>IE-200 · KAU · 2022</span>
-        <button
-          onClick={() => setPage(PAGES.CONTACT)}
-          style={{
-            background: "none",
-            border: "none",
-            color: "#b8a99a",
-            cursor: "pointer",
-            fontSize: "0.75rem",
-            letterSpacing: "0.1em",
-            padding: 0,
-          }}
-        >
+        <button onClick={() => setPage(PAGES.CONTACT)} style={{ background: "none", border: "none", color: "#b8a99a", cursor: "pointer", fontSize: "0.75rem", letterSpacing: "0.1em", padding: 0 }}>
           Contact
         </button>
       </footer>
